@@ -30,7 +30,7 @@ void Camera::CalculateViewPlane()
 
 	// calculate the width / height of the view plane
 	float halfHeight = tan(theta * 0.5f);
-	float height = halfHeight * 2.0f;
+	float height = halfHeight * 2;
 	float width = height * m_aspectRatio;
 
 	// calculate horizontal vector (right vector * width)

@@ -8,10 +8,10 @@ using rgba_t = uint32_t;
 inline color4_t RGBAToColor(const rgba_t& rgba)
 {
 	color4_t color{ 0 };
-	color.r = ((rgba >> 24) & 0xff) / 255;
-	color.g = ((rgba >> 16) & 0xff) / 255;
-	color.b = ((rgba >> 8) & 0xff) / 255;
-	color.a = ((rgba >> 0) & 0xff) / 255;
+	color.r = (float)((rgba >> 24) & 0xff) / 255.0f;
+	color.g = (float)((rgba >> 16) & 0xff) / 255.0f;
+	color.b = (float)((rgba >> 8) & 0xff) / 255.0f;
+	color.a = (float)((rgba >> 0) & 0xff) / 255.0f;
 
 	return color;
 }
