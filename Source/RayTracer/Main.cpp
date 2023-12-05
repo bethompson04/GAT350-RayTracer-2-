@@ -30,14 +30,14 @@ int main(int argc, char* argv[])
 	scene.SetCamera(camera);
 
 	// Create material
-	auto lambertian = std::make_shared<Lambertian>(color3_t{ 0, 0, 1 });
+	auto lambertian = std::make_shared<Lambertian>(color3_t{ 1, 0, 0 });
 	auto metal = std::make_shared<Metal>(color3_t{ 1,1,1 }, 0.0f);
 
 	// create objects -> add to scene
 	
 	for (int i = 0; i < 5; i++)
 	{
-		std::shared_ptr<Material> material = (random(0, 1) == 1) ? std::dynamic_pointer_cast<Material>(lambertian) : std::dynamic_pointer_cast<Material>(metal);
+		std::shared_ptr<Material> material = (random(0, 2) == 1) ? std::dynamic_pointer_cast<Material>(lambertian) : std::dynamic_pointer_cast<Material>(metal);
 
 		auto sphere = std::make_unique<Sphere>(glm::vec3{ random(-1,2), random(-1,2), random(-5,-10)}, random01(), material);
 		scene.AddObject(std::move(sphere));
@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 
 	// render scene
 	canvas.Clear({ 0, 0, 0, 1 });
-	scene.Render(canvas, 50);
+	scene.Render(canvas, 20);
 	canvas.Update();
 
 	bool quit = false;

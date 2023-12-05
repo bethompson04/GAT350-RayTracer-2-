@@ -29,6 +29,6 @@ private:
 	std::vector<std::unique_ptr<Object>> m_objects;
 
 	int m_depth{ 5 };
-	color3_t m_topColor{ 1 };
+	color3_t m_topColor{1,0,0 };
 	color3_t m_bottomColor{ 0 };
 };
