@@ -13,6 +13,7 @@
 
 void InitScene01(Scene& scene, const Canvas& canvas);
 void InitScene02(Scene& scene, const Canvas& canvas);
+void InitSceneCornell(Scene& scene, const Canvas& canvas);
 
 int main(int argc, char* argv[])
 {
@@ -34,7 +35,7 @@ int main(int argc, char* argv[])
 	//Scene scene(glm::vec3{ 0 }, glm::vec3{ 0 });
 	Scene scene(glm::vec3{ 1.0f }, glm::vec3{ 0.5f, 0.7f, 1.0f }); // sky color could be set with the top and bottom color
 
-	InitScene02(scene, canvas);
+	InitSceneCornell(scene, canvas);
 
 	// render scene
 	canvas.Clear({ 0, 0, 0, 1 });
@@ -125,7 +126,43 @@ void InitScene02(Scene& scene, const Canvas& canvas)
 
 void InitSceneCornell(Scene& scene, const Canvas& canvas)
 {
+
 	float aspectRatio = canvas.GetSize().x / (float)canvas.GetSize().y;
 	std::shared_ptr<Camera> camera = std::make_shared<Camera>(glm::vec3{ 0, 2, 10 }, glm::vec3{ 0, 1, 0 }, glm::vec3{ 0, 1, 0 }, 40.0f, aspectRatio);
 	scene.SetCamera(camera);
+
+	auto emissive = std::make_shared<Emissive>(color3_t{ 1,1,1 }, 1.5f);
+	auto lightSource = std::make_unique<Mesh>(emissive);
+	lightSource->Load("Models/cube-1.obj", glm::vec3{ 0,4.5f,0 }, glm::vec3{ 0,0,0 });
+	scene.AddObject(std::move(lightSource));
+
+	auto material = std::make_shared<Lambertian>(color3_t{ 1 });
+	auto cube = std::make_unique<Mesh>(material);
+	cube->Load("Models/cube-1.obj", glm::vec3{ -1,0.5f,-0.5f }, glm::vec3{ 0,45,0 });
+	scene.AddObject(std::move(cube));
+
+	auto mirror = std::make_shared<Metal>(color3_t{ 0 }, 0.0f);
+	auto sphere = std::make_unique<Sphere>(glm::vec3{ 1,0.5f,0.5f }, 1.0f, mirror);
+	scene.AddObject(std::move(sphere));
+
+	auto backWall = std::make_unique<Plane>(glm::vec3{ 0,0,-1 }, glm::vec3{ 0,0,1 }, material);
+	scene.AddObject(std::move(backWall));
+
+	auto floor = std::make_unique<Plane>(glm::vec3{ 0,0,0 }, glm::vec3{ 0,1,0 }, material);
+	scene.AddObject(std::move(floor));
+
+	auto roof = std::make_unique<Plane>(glm::vec3{ 0,4,0 }, glm::vec3{ 0,-1,0 }, material);
+	scene.AddObject(std::move(roof));
+
+	material = std::make_shared<Lambertian>(color3_t{ 1, 0, 0 });
+	auto leftWall = std::make_unique<Plane>(glm::vec3{ -2.5f,0,0 }, glm::vec3{ 1,0,0 }, material);
+	scene.AddObject(std::move(leftWall));
+
+	material = std::make_shared<Lambertian>(color3_t{ 0, 1, 0 });
+	auto rightWall = std::make_unique<Plane>(glm::vec3{ 2.5f,0,0 }, glm::vec3{ -1,0,0 }, material);
+	scene.AddObject(std::move(rightWall));
+
+
+
+
 }
