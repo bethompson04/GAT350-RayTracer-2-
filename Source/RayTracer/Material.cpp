@@ -4,7 +4,7 @@
 
 bool Lambertian::Scatter(const ray_t& ray, const raycastHit_t& raycastHit, color3_t& color, ray_t& scattered) const
 {
-    glm::vec3 target = raycastHit.point + raycastHit.normal + random01();
+    glm::vec3 target = raycastHit.point + raycastHit.normal + randomInUnitSphere();
     glm::vec3 direction = normalize(target - raycastHit.point);
     //glm::vec3 direction = normalize(raycastHit.point - target);
 

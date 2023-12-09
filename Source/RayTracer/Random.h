@@ -18,7 +18,7 @@ inline float random(float min, float max)
 {
 	if (min > max) std::swap(min, max);
 	float range = max - min;
-	return random01() * (range + min);
+	return min + range * random01();
 }
 
 inline glm::vec3 randomVec3(const glm::vec3& min, const glm::vec3& max)
